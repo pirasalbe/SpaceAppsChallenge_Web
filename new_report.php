@@ -1,3 +1,8 @@
+<?php
+require_once "get_all_species.php";
+$json = get_all_species();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,23 +17,52 @@
 
 </head>
 <body>
+<?php
+session_start();
+if (!isset($_SESSION["email"])) {
+    header("location: login.php");
+}
+?>
 <?php require_once "navbar.php"; ?>
+
+<?php
+if (isset($_GET["p"])) {
+    $code = $_GET["p"];
+    if ($code == "e") {
+        ?>
+        <div class="alert alert-success">
+            <strong>Error!</strong> An error occur
+        </div>
+        <?php
+    }
+} ?>
+
 <div class="container">
     <h2>New report</h2>
     <form class="form-horizontal" method="get" action="handler_new_report.php">
         <div class="form-group">
-            <label class="control-label col-sm-2" for="specie_type">Type of specie:</label>
+            <label class="control-label col-sm-2" for="species">Type of specie:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="specie_type"
-                       placeholder="Enter the type of the specie you found" name="specie_type">
+                <select class="form-control" id="species" name="species">
+                    <option value="4">Mustard</option>
+
+                    <?php
+
+                    foreach ($json as $row) {
+                        $element = json_decode($row, true);
+                        echo "<option value=" . $element["id"] . ">" . $element["name"] . "</option>";
+                    }
+                    ?>
+                </select>
+
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-2" for="damage_type">Type of damage:</label>
+            <label class="control-label col-sm-2" for="damage">Type of damage:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="damage_type" placeholder="Enter what happened"
-                       name="damage_type">
+                <input type="text" class="form-control" id="damage" placeholder="Enter what happened"
+                       name="damage">
             </div>
         </div>
 
@@ -45,9 +79,9 @@
             <div class="col-sm-offset-2 ">
                 <div class="col-sm-10">
                     <input type='button' onclick="SetMapByText()" class="btn btn-primary" name='update'
-                           value='Aggiorna mappa'>
+                           value='Update map'>
                     <input type='button' onclick="SetMapByPosition()" class="btn btn-primary" name='autoPosition'
-                           value='Ottieni Posizione'>
+                           value='Current position'>
                 </div>
             </div>
         </div>
@@ -109,7 +143,7 @@
 
             document.getElementById("Coordinate").value = latitude + " " + longitude;
 
-            placeMarkerAndPanTo(e.latLng, map);
+            placeMarkerAndPlanTo(e.latLng, map);
 
         });
     }
@@ -126,7 +160,7 @@
     function showPosition(position) {
         var output = position.coords.latitude + " " + position.coords.longitude;
 
-        placeMarkerAndPanTo(null, map, position.coords.latitude, position.coords.longitude);
+        placeMarkerAndPlanTo(null, map, position.coords.latitude, position.coords.longitude);
         var Coordinates = document.getElementById("Coordinate").value = output;
 
     }
@@ -137,13 +171,13 @@
         document.getElementById("Coordinate").value = Coordinates;
         var splitted = Coordinates.split(" ");
         if (splitted.length !== 2) {
-            alert("Le coordinate non sono inserite correttamente\nInserisce la latitudine xx.xxx e la longitudine yy.yyy separati da uno spazio");
+            alert("Invalid coordinates, use xxx.xxx yy.yyy format");
         }
         else
-            placeMarkerAndPanTo(null, map, splitted[0], splitted[1]);
+            placeMarkerAndPlanTo(null, map, splitted[0], splitted[1]);
     }
 
-    function placeMarkerAndPanTo(latLng, map, lat, lon) {
+    function placeMarkerAndPlanTo(latLng, map, lat, lon) {
         if (latLng === null) {
             latLng = new google.maps.LatLng(lat, lon)
         }

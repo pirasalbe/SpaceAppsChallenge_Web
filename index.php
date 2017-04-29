@@ -1,11 +1,90 @@
+<?php session_start();
+require_once "get_all_report.php";
+$json = get_all_reports();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>New report</title>
+    <title>Home</title>
     <?php require_once "headers.php"; ?>
-
+    <style>
+        #map {
+            height: 700px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <?php require_once "navbar.php"; ?>
+
+
+<div id="map"></div>
+<script>
+
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 3,
+            center: {lat: 45, lng: 11}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = [];
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+
+        <?php
+        foreach ($json as $row) {
+            $element = json_decode($row, true);
+            $id = $element["id"];
+            echo "labels.push($id);";
+        }
+        ?>
+        alert(labels);
+
+        var markers = locations.map(function (location, i) {
+            return new google.maps.Marker({
+                position: location,
+                label: (labels[i % labels.length].toString())
+            });
+        });
+
+
+        markers.forEach(function (element) {
+            element.addListener('click', function () {
+                alert(element.getLabel())
+            });
+        });
+
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    }
+    var locations = [
+        <?php
+        foreach ($json as $row) {
+            $element = json_decode($row, true);
+
+            echo "{lat: " . $element["locationX"] . ", lng: " . $element["locationY"] . "},";
+        }
+        ?>
+    ]
+</script>
+
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXZYq-f8Y5LlM2nT4x8QCnd6Rnsxl97dc&callback=initMap">
+</script>
+
+
 </body>
+
 </html>

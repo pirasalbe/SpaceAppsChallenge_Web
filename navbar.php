@@ -1,3 +1,9 @@
+<?php
+$logged = false;
+if (isset($_SESSION["email"]))
+    $logged = true;
+?>
+
 <link href="css/navbar-top-fixed.css" rel="stylesheet">
 
 <nav class="navbar navbar-light bg-faded rounded fixed-top navbar-toggleable-md">
@@ -31,15 +37,19 @@
                 </li>
             </ul>
             <div>
-                <button class='btn btn-outline-primary' data-toggle='modal' data-target='#loginModal'>
-                    Log in
-                </button>
 
-                <input type='button' class='btn btn-outline-danger' id='newReportBtt' value='New Report'>
+                <input type='button' class='btn btn-outline-primary' id='loginBtt'
+                       value='Login' <?php if ($logged) echo "hidden" ?>>
+                <input type='button' class='btn btn-outline-danger' id='newReportBtt'
+                       value='New Report' <?php if (!$logged) echo "hidden" ?>>
+
             </div>
             <script type='text/javascript'>
                 document.getElementById('newReportBtt').onclick = function () {
                     window.location.href = 'new_report.php';
+                };
+                document.getElementById('loginBtt').onclick = function () {
+                    window.location.href = 'login.php';
                 };
             </script>
         </div>
