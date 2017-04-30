@@ -6,7 +6,7 @@ if (isset($_SESSION["email"]))
 
 <link href="css/navbar-top-fixed.css" rel="stylesheet">
 
-<nav class="navbar navbar-light bg-faded rounded fixed-top navbar-toggleable-md">
+<nav class="navbar bg-faded rounded fixed-top navbar-toggleable-md">
     <div class='container'>
         <button class='navbar-toggler navbar-toggler-right' type='button' data-toggle='collapse'
                 data-target='#siteNavbar' aria-controls='siteNavbar' aria-expanded='false'
@@ -29,6 +29,9 @@ if (isset($_SESSION["email"]))
                        value='Login' <?php if ($logged) echo "hidden" ?>>
                 <input type='button' class='btn btn-outline-danger' id='newReportBtt'
                        value='New Report' <?php if (!$logged) echo "hidden" ?>>
+                <input type='button' class='btn btn-outline-success' id='forumBtt'
+                       value='Forum'>
+
 
             </div>
             <script type='text/javascript'>

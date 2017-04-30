@@ -30,7 +30,7 @@ if (isset($_GET["p"])) {
     $code = $_GET["p"];
     if ($code == "e") {
         ?>
-        <div class="alert alert-success">
+        <div class="alert alert-danger">
             <strong>Error!</strong> An error occur
         </div>
         <?php
@@ -39,7 +39,7 @@ if (isset($_GET["p"])) {
 
 <div class="container">
     <h2>New report</h2>
-    <form class="form-horizontal" method="get" action="handler_new_report.php">
+    <form class="form-horizontal" method="post" action="handler_new_report.php" enctype="multipart/form-data">
         <div class="form-group">
             <label class="control-label col-sm-2" for="species">Type of species:</label>
             <div class="col-sm-10">
@@ -65,6 +65,13 @@ if (isset($_GET["p"])) {
             </div>
         </div>
 
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="image">Photo:</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control" id="image"
+                       name="image">
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="CoordinateLabel">Coordinate:</label>

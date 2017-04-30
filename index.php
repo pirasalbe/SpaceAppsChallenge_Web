@@ -12,7 +12,7 @@ $json = get_all_reports();
     <?php require_once "headers.php"; ?>
     <style>
         #map {
-            height: 700px;
+            height: 850px;
             width: 100%;
         }
     </style>
