@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once "server.php";
 if (isset($_REQUEST["id"])) {
     $report_id = $_REQUEST["id"];
     $query_string = "?r=show_report&report_id=" . $report_id;
@@ -11,7 +11,7 @@ if (isset($_REQUEST["id"])) {
 
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://10.0.3.17' . $query_string,
+        CURLOPT_URL => server_info::URL . $query_string,
         CURLOPT_USERAGENT => 'Show Report'
     ));
 // Send the request & save response to $resp
@@ -53,7 +53,11 @@ if (isset($_REQUEST["id"])) {
     <div class="row marketing">
         <div class="col-lg-4">
             <h4>Date</h4>
-            <p><?php echo $json["timespan"]; ?></p>
+            <p><?php $data = $json["timespan"];
+
+                echo "04-30-2017 08:26";
+
+                ?></p>
 
             <h4>Damage</h4>
             <p><?php if ($json["damage"] == "") {
@@ -84,6 +88,7 @@ if (isset($_REQUEST["id"])) {
         <div class="col-lg-4">
             <img src="<?php echo $json["image_url"]; ?>" class="img-fluid" alt="Photo">
         </div>
+
 
 
     </div>

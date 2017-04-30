@@ -12,17 +12,26 @@ $json = get_all_reports();
     <?php require_once "headers.php"; ?>
     <style>
         #map {
-            height: 850px;
+            height: 600px;
             width: 100%;
+
+        }
+
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.min.js"></script>
+    <script src="js/utils.js"></script>
+
 </head>
 <body>
 <?php require_once "navbar.php"; ?>
 
 
-<div id="map"></div>
-<script>
+<
 
     function initMap() {
 
@@ -62,17 +71,15 @@ $json = get_all_reports();
         markers.forEach(function (element) {
             element.addListener('click', function () {
                 var code = 0;
-                switch (parseInt(element.getLabel()))
-                {
-                    <?php
-                        foreach ($dictionary as $key=>$item)
-                        {
-                            echo "
+                switch (parseInt(element.getLabel())) {
+                <?php
+                    foreach ($dictionary as $key => $item) {
+                        echo "
                             case $key:
                             code = $item;
                             break;";
-                        }
-                        ?>
+                    }
+                    ?>
                 }
 
                 window.location.href = 'show_report.php?id=' + code;
@@ -101,6 +108,10 @@ $json = get_all_reports();
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXZYq-f8Y5LlM2nT4x8QCnd6Rnsxl97dc&callback=initMap">
+</script>
+
+<script>
+
 </script>
 
 

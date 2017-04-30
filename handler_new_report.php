@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "server.php";
 
 if (isset($_SESSION["email"]) && $_SESSION["password"]) {
 
@@ -26,7 +27,7 @@ if (isset($_SESSION["email"]) && $_SESSION["password"]) {
 // Set some options - we are passing in a useragent too here
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://10.0.3.17' . $query_string . "&email=" . $email . "&password=" . $password . "&timestamp=" . time() . "&image_url=" . $url,
+        CURLOPT_URL => server_info::URL . $query_string . "&email=" . $email . "&password=" . $password . "&timestamp=" . time() . "&image_url=" . $url,
         CURLOPT_USERAGENT => 'New Report'
     ));
 // Send the request & save response to $resp

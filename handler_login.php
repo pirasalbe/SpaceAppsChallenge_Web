@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "server.php";
 
 if (isset($_POST["email"]) && $_POST["password"]) {
 
@@ -15,7 +16,7 @@ if (isset($_POST["email"]) && $_POST["password"]) {
 
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://10.0.3.17' . $query_string . "email=" . $email . "&password=" . $password,
+        CURLOPT_URL => server_info::URL . $query_string . "email=" . $email . "&password=" . $password,
         CURLOPT_USERAGENT => 'Login'
     ));
 
