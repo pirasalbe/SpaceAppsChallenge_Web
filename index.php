@@ -39,13 +39,17 @@ $json = get_all_reports();
         // The map() method here has nothing to do with the Google Maps API.
 
         <?php
+        $i = 0;
+        $dictionary = array();
+
         foreach ($json as $row) {
             $element = json_decode($row, true);
             $id = $element["id"];
-            echo "labels.push($id);";
+            $dictionary[$i] = $id;
+            echo "labels.push($i);";
+            $i++;
         }
         ?>
-        alert(labels);
 
         var markers = locations.map(function (location, i) {
             return new google.maps.Marker({
@@ -57,7 +61,22 @@ $json = get_all_reports();
 
         markers.forEach(function (element) {
             element.addListener('click', function () {
-                alert(element.getLabel())
+                var code = 0;
+                switch (parseInt(element.getLabel()))
+                {
+                    <?php
+                        foreach ($dictionary as $key=>$item)
+                        {
+                            echo "
+                            case $key:
+                            code = $item;
+                            break;";
+                        }
+                        ?>
+                }
+
+                window.location.href = 'show_report.php?id=' + code;
+
             });
         });
 

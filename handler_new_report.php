@@ -26,7 +26,7 @@ if (isset($_SESSION["email"]) && $_SESSION["password"]) {
 
     if ($resp == "ok")
     {
-        header("location: index.php?p=ro");
+        header("location: index.php");
     }
     else
     {

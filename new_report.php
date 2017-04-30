@@ -41,16 +41,15 @@ if (isset($_GET["p"])) {
     <h2>New report</h2>
     <form class="form-horizontal" method="get" action="handler_new_report.php">
         <div class="form-group">
-            <label class="control-label col-sm-2" for="species">Type of specie:</label>
+            <label class="control-label col-sm-2" for="species">Type of species:</label>
             <div class="col-sm-10">
-                <select class="form-control" id="species" name="species">
-                    <option value="4">Mustard</option>
+                <select class="form-control" id="species" name="id_species">
 
                     <?php
 
                     foreach ($json as $row) {
                         $element = json_decode($row, true);
-                        echo "<option value=" . $element["id"] . ">" . $element["name"] . "</option>";
+                        echo "<option value=" . $element["idTaxon"] . ">" . $element["name"] . "</option>";
                     }
                     ?>
                 </select>
